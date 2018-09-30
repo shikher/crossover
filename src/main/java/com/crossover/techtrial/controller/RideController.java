@@ -3,11 +3,14 @@
  */
 package com.crossover.techtrial.controller;
 
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.crossover.techtrial.dto.TopDriverDTO;
+import com.crossover.techtrial.exceptions.ApiErrorResponse;
 import com.crossover.techtrial.model.Ride;
 import com.crossover.techtrial.service.RideService;
 
@@ -31,7 +35,12 @@ public class RideController {
   RideService rideService;
 
   @PostMapping(path ="/api/ride")
-  public ResponseEntity<Ride> createNewRide(@RequestBody Ride ride) {
+  public ResponseEntity<Ride> createNewRide(@RequestBody Ride ride) throws ApiErrorResponse {
+	LocalDateTime startTime = LocalDateTime.parse(ride.getStartTime());
+	LocalDateTime endTime = LocalDateTime.parse(ride.getEndTime());
+	if (startTime.compareTo(endTime) > 0) {
+		throw new ApiErrorResponse(HttpStatus.BAD_REQUEST, "Start time is greater than end time");	
+	}
     return ResponseEntity.ok(rideService.save(ride));
   }
   

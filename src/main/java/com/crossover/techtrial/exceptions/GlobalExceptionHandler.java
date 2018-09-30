@@ -15,6 +15,14 @@ public class GlobalExceptionHandler {
 
   private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+  
+  @ExceptionHandler(ApiErrorResponse.class)
+  public ResponseEntity handleException(ApiErrorResponse e) {
+	  AbstractMap.SimpleEntry<String, String> response =
+		        new AbstractMap.SimpleEntry<>("message", e.getMessage());
+	  return ResponseEntity.status(e.getStatus()).body(response);
+  }
+  
   /**
    * Global Exception handler for all exceptions.
    */

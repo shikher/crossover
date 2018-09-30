@@ -6,6 +6,7 @@ package com.crossover.techtrial.service;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.crossover.techtrial.model.Ride;
 import com.crossover.techtrial.repositories.RideRepository;
 
@@ -22,7 +23,7 @@ public class RideServiceImpl implements RideService{
   public Ride save(Ride ride) {
     return rideRepository.save(ride);
   }
-  
+ 
   public Ride findById(Long rideId) {
     Optional<Ride> optionalRide = rideRepository.findById(rideId);
     if (optionalRide.isPresent()) {

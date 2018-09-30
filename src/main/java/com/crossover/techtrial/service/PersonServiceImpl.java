@@ -27,7 +27,7 @@ public class PersonServiceImpl implements PersonService{
   @Override
   public List<Person> getAll() {
     List<Person> personList = new ArrayList<>();
-    personRepository.findAll().forEach(personList::add);
+    personList = personRepository.findAll();
     return personList;
     
   }
